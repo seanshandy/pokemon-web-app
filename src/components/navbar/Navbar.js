@@ -18,7 +18,7 @@ function Navbar() {
         <IconContext.Provider value={{ color: '#fff'}}>
             <div className="navbar">
                 <div className="navbar-container container">
-                    <NavLink className="navbar-logo" to='/pokemon-list' onClick={closeMobileMenu}>
+                    <NavLink className="navbar-logo" exact to='/' onClick={closeMobileMenu}>
                         <Logo className="nav-icon" />
                         Pokemon
                     </NavLink>
@@ -27,7 +27,7 @@ function Navbar() {
                     </div>
                     <ul className={click ? 'nav-menu active': 'nav-menu'}>
                         <li className="nav-item">
-                            <NavLink  to='/pokemon-list' className="nav-links"  activeClassName='is-active' onClick={closeMobileMenu}>
+                            <NavLink  exact to='/' className="nav-links"  activeClassName='is-active' onClick={closeMobileMenu}>
                                 Pokemon List
                             </NavLink>
                         </li>

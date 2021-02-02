@@ -1,7 +1,7 @@
 import './App.css';
 import  Navbar  from "./components/navbar/Navbar";
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import {
   ApolloClient,
   InMemoryCache,
@@ -39,13 +39,10 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-    <Router>
+    <Router basename='/'>
       <Navbar />
       <Switch>
-        <Route exact path='/'>
-          <Redirect to="/pokemon-list" />
-        </Route>
-        <Route path='/pokemon-list' component={PokemonList}/>
+        <Route exact path='/' component={PokemonList} />
         <Route path='/my-pokemon-list' component={MyPokemonList}/>
         <Route path='/pokemon-detail' component={PokemonDetail}/>
       </Switch>
