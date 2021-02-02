@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const LOAD_POKEMONS = gql`
+export const GET_POKEMONS = gql`
     query pokemons($limit: Int, $offset: Int) {
         pokemons(limit: $limit, offset: $offset) {
             count
@@ -17,5 +17,29 @@ export const LOAD_POKEMONS = gql`
                 image
             }
         }
+    }
+`
+
+export const GET_POKEMON_DETAIL = gql `
+    query pokemon($name: String!) {
+        pokemon(name: $name) {
+            id
+            name
+            weight
+            height
+            sprites {
+                front_default
+            }
+            abilities {
+                ability {
+                name
+                }
+            }
+            types {
+                type {
+                name
+                }
+            }
+            }
     }
 `
