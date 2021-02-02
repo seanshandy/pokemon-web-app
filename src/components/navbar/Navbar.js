@@ -1,10 +1,10 @@
 import React, { useState} from 'react';
 import { Link } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
-import "./Navbar.css";
 import { IconContext} from 'react-icons/lib';
-import { ReactComponent as Logo } from '../images/icon_pokeball.svg';
+import { ReactComponent as Logo } from '../../images/icon_pokeball.svg';
 
+import "./Navbar.css";
 
 function Navbar() {
     const [click, setClick]  = useState(false);
