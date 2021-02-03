@@ -8,6 +8,7 @@ p {
   text-decoration: none;
   color: var(--color-black);
   padding: 5px;
+  box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.2);
 }
 
 .pokemon-image-container {
@@ -18,7 +19,7 @@ p {
 }
 
 .pokemon-image {
-  min-width: 200px;
+  height: 230px;
 }
 
 .pokemon-info {
