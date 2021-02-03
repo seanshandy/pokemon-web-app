@@ -1,0 +1,40 @@
+p {
+  margin: 8px 0;
+}
+
+.card {
+  background: var(--color-grey);
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--color-black);
+  padding: 5px;
+}
+
+.pokemon-image-container {
+  text-align: center;
+  width: 100%;
+  display: block;
+  position: relative;
+}
+
+.pokemon-image {
+  min-width: 200px;
+}
+
+.pokemon-info {
+  padding-left: 8%;
+  padding-right: 10px;
+}
+
+.pokemon-id {
+  font-size: 100%;
+  color: var(--color-grey-dk);
+}
+
+.pokemon-name {
+  font-size: 150%;
+}
+
+.pokemon-owned {
+  font-size: 75%;
+}

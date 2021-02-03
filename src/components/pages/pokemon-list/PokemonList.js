@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useQuery, useLazyQuery } from "@apollo/client";
 import { GET_POKEMONS } from "../../../graphql/queries";
+import PokemonCard from "../../pokemon-card/PokemonCard";
+
+import "./PokemonList.css";
 
 
 function PokemonList() {
@@ -63,9 +66,13 @@ function PokemonList() {
 
     return (
         <>
-            <div className="container">
-                { loadingState ? <h1 > LOADING... </h1> : ( pokemonData.map((pokemons) => (<h1 key={pokemons.id} data={pokemons}> {pokemons.name} </h1>)) )
-                }
+            <div className="container c-page">
+                <div className="grid-container">
+                    { loadingState ? <h1 > LOADING... </h1> : 
+                        ( pokemonData.map((pokemon) => {
+                        return <PokemonCard key={pokemon.id} pokemon={pokemon} />
+                    }))}
+                </div>
                 <div className="btn">
                     <button onClick={() => nextPokemons({ variables: { limit: 20, offset: offset } })}>Load More</button>
                 </div>

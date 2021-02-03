@@ -43,8 +43,11 @@
   padding: 0;
   font-family: "PT Sans", sans-serif;
 
-  --color-black: #000000;
+  --color-black: #212121;
   --color-white: #ffffff;
+  --color-grey: #eae9e9;
+  --color-grey-lg: #f9f9f9;
+  --color-grey-dk: #898888;
 
   --color-red: #ff0000;
   --color-unvred: #cc0000;
@@ -61,6 +64,19 @@
   margin-left: auto;
   padding-right: 50px;
   padding-left: 50px;
+}
+
+.c-page {
+  background-color: var(--color-grey-lg);
+}
+
+.grid-container {
+  width: 100%;
+  display: grid;
+  margin: 0 auto;
+  padding: 20px 5px 20px 5px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap: 10px;
 }
 
 @media screen and (max-width: 991px) {
