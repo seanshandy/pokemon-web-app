@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useQuery, useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { GET_POKEMONS } from "../../../graphql/queries";
 import PokemonCard from "../../pokemon-card/PokemonCard";
 
@@ -7,41 +7,42 @@ import "./PokemonList.css";
 
 
 function PokemonList() {
-    const [pokemonData, setPokemonData] = useState([]);
-    const [offset, setOffset] = useState(0);
-    const [firstload, setFirstLoad] = useState('0');
+    const [webData, setWebData] = useState();
     const [loadingState, setLoadingState] = useState(true);
     const [nextPokemons, { loading, data }] = useLazyQuery(GET_POKEMONS);
 
     useEffect(() => {
         const localPokemon = localStorage.getItem('pokemon-data');
-        if (localPokemon) {
-            setPokemonData(JSON.parse(localPokemon));
-            setLoadingState(false);
-        }
-
         const localOffset = localStorage.getItem('pokemon-data-offset');
-        if (localOffset) {
-            setOffset(JSON.parse(localOffset));
-        }
-
-        const localFirstload = localStorage.getItem('pokemon-data-firstload');
-        if (localFirstload) {
-            setFirstLoad(JSON.parse(localFirstload));
-        }
+        const localVisited= localStorage.getItem('pokemon-data-visited');
+        const d = [];
         
-        if (localFirstload === '0' || localFirstload === null) {
-            nextPokemons({ variables: { limit: 20, offset: offset } });
-            setFirstLoad(1);
-            localStorage.setItem('pokemon-data-firstload', '1');
+        if (localPokemon) {
+            d[0] = JSON.parse(localPokemon);
+        }
+        if (localOffset) {
+            d[1] = JSON.parse(localOffset);
+        }
+        if (localVisited) {
+            d[2] = JSON.parse(localVisited);
         }
 
-    }, [])
+        if(d.length > 0) {
+            console.log(d);
+            setWebData(d);
+        } 
+
+        if (!localVisited) {
+            nextPokemons({ variables: { limit: 20, offset: 0 } });
+        }
+
+    }, []);
 
     useEffect(() => {
         if (data) {
-            console.log(data);
-            let prevPokemons = pokemonData;
+            setLoadingState(true);
+
+            let prevPokemons = (webData ? webData[0]: null);
             let updatedPokemons = [];
 
             if(prevPokemons) {
@@ -54,28 +55,45 @@ function PokemonList() {
                 updatedPokemons.push(p)
             })
 
-            setPokemonData(updatedPokemons);
-            localStorage.setItem('pokemon-data', JSON.stringify(updatedPokemons));
+            const d = [];
+            d[0] = updatedPokemons;
+            d[1] = data.pokemons.nextOffset;
+            d[2] = 'true';
 
-            setOffset(data.pokemons.nextOffset);
-            localStorage.setItem('pokemon-data-offset', JSON.stringify(data.pokemons.nextOffset));
-
-            setLoadingState(false);
+            setWebData(d);
         }
     }, [data])
+
+    useEffect(() => {
+        if (webData) {
+            localStorage.setItem('pokemon-data', JSON.stringify(webData[0]));
+            localStorage.setItem('pokemon-data-offset', JSON.stringify(webData[1]));
+            localStorage.setItem('pokemon-data-visited', 'true');
+            setLoadingState(false);
+        }
+    }, [webData])
+
+    if (loadingState) {
+        return <h1> Loading... </h1> ;
+    }
 
     return (
         <>
             <div className="container c-page">
-                <div className="grid-container">
-                    { loadingState ? <h1 > LOADING... </h1> : 
-                        ( pokemonData.map((pokemon) => {
+                { webData ? 
+                <>
+                    <div className="grid-container"> 
+                    { webData[0].map((pokemon) => {
                         return <PokemonCard key={pokemon.id} pokemon={pokemon} />
-                    }))}
-                </div>
-                <div className="btn">
-                    <button onClick={() => nextPokemons({ variables: { limit: 20, offset: offset } })}>Load More</button>
-                </div>
+                    }) }  
+                    </div> 
+
+                    <div className="btn">
+                        <button onClick={() => nextPokemons({ variables: { limit: 20, offset: webData[1] } })}>Load More</button>
+                    </div>
+                </>
+                : <div> </div>
+                }
             </div>
         </>
     )

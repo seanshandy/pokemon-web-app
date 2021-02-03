@@ -44,7 +44,7 @@ function App() {
       <Switch>
         <Route exact path='/' component={PokemonList} />
         <Route path='/my-pokemon-list' component={MyPokemonList}/>
-        <Route path='/pokemon-detail' component={PokemonDetail}/>
+        <Route path='/pokemon-detail/:id' component={PokemonDetail}/>
       </Switch>
     </Router>
     </ApolloProvider>

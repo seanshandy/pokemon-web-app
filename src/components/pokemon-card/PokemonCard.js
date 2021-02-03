@@ -14,7 +14,7 @@ function PokemonCard({ pokemon }) {
 
     
     return (
-        <Link  exact to='/' className="card">
+        <Link  to={'/pokemon-detail/' + pokemon.id} className="card">
                 <div className="pokemon-image-container">
                     <img src={pokemon.image} alt={pokemon.name} className="pokemon-image"/>
                 </div>
