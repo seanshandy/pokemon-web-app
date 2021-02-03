@@ -11,6 +11,12 @@ p {
   box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.2);
 }
 
+.card:hover {
+  transition: none 0.5s ease-in-out;
+  transform: translateY(-5px);
+  filter: drop-shadow(3px 3px 6px var(--color-black));
+}
+
 .pokemon-image-container {
   text-align: center;
   width: 100%;
@@ -29,11 +35,12 @@ p {
 
 .pokemon-id {
   font-size: 100%;
-  color: var(--color-grey-dk);
+  color: var(--color-grey-drk);
 }
 
 .pokemon-name {
   font-size: 150%;
+  text-transform: capitalize;
 }
 
 .pokemon-owned {

@@ -67,8 +67,20 @@ function PokemonList() {
     }, [webData])
 
     function loadMore(offset) {
-        setLoadingState(true);
-        nextPokemons({ variables: { limit: 20, offset:  offset} });
+        const localOffset = localStorage.getItem('pokemon-data-offset');
+
+        if (offset === JSON.parse(localOffset)) {
+            setLoadingState(true);
+            nextPokemons({ variables: { limit: 20, offset:  offset} });
+        } else {
+            const localPokemon = localStorage.getItem('pokemon-data');
+            const localOffset = localStorage.getItem('pokemon-data-offset');
+            const d = [];
+            d[0] = JSON.parse(localPokemon);
+            d[1] = JSON.parse(localOffset);
+
+            setWebData(d);
+        }
     }
 
     // if (loadingState) {
@@ -77,24 +89,22 @@ function PokemonList() {
 
     return (
         <>
-            <div className="container c-page">
-                <div className="grid-container"> 
-                    { webData ? 
-                        <>
-                        {webData[0].map((pokemon) => {
-                            return <PokemonCard key={pokemon.id} pokemon={pokemon} />
-                        })}
-                        </>
-                    : null
-                    } 
-                </div> 
+            <div className="grid-container"> 
+                { webData ? 
+                    <>
+                    {webData[0].map((pokemon) => {
+                        return <PokemonCard key={pokemon.id} pokemon={pokemon} />
+                    })}
+                    </>
+                : null
+                } 
+            </div> 
 
-                { !loadingState ?
-                    <div className="btn">
-                        <button onClick={() => loadMore(webData[1])}>Load More</button>
-                    </div> : <h1>Loading...</h1>
-                }
-            </div>
+            { !loadingState ?
+                <div className="btn">
+                    <button onClick={() => loadMore(webData[1])}>Load More</button>
+                </div> : <h1>Loading...</h1>
+            }
         </>
     )
 }

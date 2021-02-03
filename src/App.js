@@ -14,6 +14,7 @@ import { onError } from "@apollo/client/link/error";
 import MyPokemonList from "./components/pages/my-pokemon-list/MyPokemonList";
 import PokemonList from "./components/pages/pokemon-list/PokemonList";
 import PokemonDetail from "./components/pages/pokemon-detail/PokemonDetail";
+import ErrorPage from "./components/pages/error-page/ErrorPage";
 
 
 
@@ -41,11 +42,14 @@ function App() {
     <ApolloProvider client={client}>
     <Router basename='/'>
       <Navbar />
-      <Switch>
-        <Route exact path='/' component={PokemonList} />
-        <Route path='/my-pokemon-list' component={MyPokemonList}/>
-        <Route path='/pokemon-detail/:id' component={PokemonDetail}/>
-      </Switch>
+        <div className="container page">
+          <Switch >
+            <Route exact path='/' component={PokemonList} />
+            <Route path='/my-pokemon' component={MyPokemonList}/>
+            <Route path='/pokemon-detail/:name' component={PokemonDetail}/>
+            <Route exact path='*' component={ErrorPage} />
+          </Switch>
+        </div>
     </Router>
     </ApolloProvider>
   );

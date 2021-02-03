@@ -28,19 +28,19 @@ function Navbar() {
                     <ul className={click ? 'nav-menu active': 'nav-menu'}>
                         <li className="nav-item">
                             <NavLink  exact to='/' className="nav-links"  activeClassName='is-active' onClick={closeMobileMenu}>
-                                Pokemon List
+                                Poke`dex
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink to='/my-pokemon-list' className="nav-links" activeClassName='is-active' onClick={closeMobileMenu}>
-                                My Pokemon List
+                            <NavLink to='/my-pokemon' className="nav-links" activeClassName='is-active' onClick={closeMobileMenu}>
+                                MyPokemon
                             </NavLink>
                         </li>
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                             <NavLink to='/pokemon-detail' className="nav-links"  activeClassName='is-active' onClick={closeMobileMenu}>
                                 Pokemon Detail
                             </NavLink>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
             </div>

@@ -32,14 +32,16 @@ export const GET_POKEMON_DETAIL = gql `
             }
             abilities {
                 ability {
-                name
+                    name
+                    url
                 }
             }
             types {
                 type {
-                name
+                    name
+                    url
                 }
             }
-            }
+        }
     }
 `
