@@ -4,21 +4,9 @@ import "./Modal.css";
 const Modal = props => {
     const [nickname, setNickname] = useState('');
 
-    const closeOnEsaceKeyDown = (e) => {
-        if((e.charCode || e.keyCode) === 27) {
-            props.onClose()
-        }
-    }
-
-    useEffect(() => {
-        document.body.addEventListener('keydown', closeOnEsaceKeyDown);
-        return () => {
-            document.body.removeEventListener('keydown', closeOnEsaceKeyDown)
-        }
-    }, [])
-
     function savePokemon(name) {
-        props.onSavedPokemon(name); 
+        name.trim() === '' ? props.onSavedPokemon('-') : 
+        props.onSavedPokemon(name.trim()); 
     }
 
     function releasePokemon() {
@@ -29,10 +17,18 @@ const Modal = props => {
         setNickname(event.target.value);
     }
 
+    function handleClickOutside(e) {
+        if (props.catched != undefined || props.catched === true) {
+            e.stopPropagation();
+        } else {
+            return props.onClose();
+        }
+    }
+
 
     return (
         <>
-            <div className={`modal ${props.show ? 'show' : ''} )`} onClick={props.onClose}>
+            <div className={`modal ${props.show ? 'show' : ''} )`} onClick={(e) => handleClickOutside(e)}>
                 <div className="modal-content" onClick={e => e.stopPropagation()}>
                     <div className="modal-header">
                         <h4>{props.title}</h4>

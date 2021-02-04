@@ -25,6 +25,7 @@ function PokemonDetail() {
     const [modalTitle, setModalTitle] = useState();
     const [modalBody, setModalBody] = useState();
     const [catched, setCatched] = useState(false);
+    const [saved, setSaved] = useState(false);
 
     useEffect(() => {
         setLoadingState(true);
@@ -90,25 +91,31 @@ function PokemonDetail() {
         }
 
         localStorage.setItem('my-pokemon', JSON.stringify(newPokemon));
+        setSaved(true);
         setShowModal(false);
-
-        setShowModal(true);
-        setModalTitle('Congrats!');
-        setModalBody(name + "Have been Added to Box!");
-        setCatched(false);
-
-        nextPath('/mypokemons');
     }
 
     function nextPath(path) {
         history.push(path);
     }
 
+    useEffect(() => {
+        if (saved) {
+            setShowModal(true);
+            setModalTitle('Congrats!');
+            setModalBody(name + "Have been Added to Box!");
+            setCatched(false);
+            setCatched(false);
+            window.setTimeout(setShowModal(false), 2000);
+            nextPath('/mypokemons');
+        }
+    }, [saved])
+
 
     return (
         <>
         <div className='p-detail-page'>
-            <Modal title={modalTitle} body={modalBody} show={showModal} catched={catched} onClose={() => setShowModal(false)}  onSavedPokemon={SavePokemon} />
+            <Modal title={modalTitle} body={modalBody} show={showModal} catched={catched} saved={saved} onClose={() => setShowModal(false)}  onSavedPokemon={SavePokemon} />
             
             {!loadingState && pokemon ? 
                 <>
