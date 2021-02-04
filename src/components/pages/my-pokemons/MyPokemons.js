@@ -7,14 +7,13 @@ import "./MyPokemons.css";
 
 
 function Mypokemons() {
-    const [pokemons, setPokemons] = useState();
+    const [pokemons, setPokemons] = useState([]);
     const [loadingState, setLoadingState] = useState(true);
     const localPokemon = localStorage.getItem('my-pokemon');
     let pokemonData = localPokemon ? JSON.parse(localPokemon) : null;
 
     useEffect(() => {
         if(pokemonData) {
-            console.log(pokemonData);
             setPokemons(pokemonData);
         } 
         setLoadingState(false);
@@ -38,7 +37,7 @@ function Mypokemons() {
         <div className="grid-container"> 
         {
             loadingState ? <h1>Loading...</h1> :
-            pokemons ?
+            pokemons.length > 0 ?
             pokemons.map((pokemon) => {
                 return (<div className="card-container" key={pokemon.mypokemonid}>
                     <PokemonCard pokemon={pokemon} />

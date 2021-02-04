@@ -8,7 +8,7 @@ import Button from "../../button/Button";
 
 
 function PokemonList() {
-    const [webData, setWebData] = useState();
+    const [webData, setWebData] = useState([]);
     const [loadingState, setLoadingState] = useState(true);
     const [nextPokemons, { loading, data }] = useLazyQuery(GET_POKEMONS);
 
@@ -90,7 +90,7 @@ function PokemonList() {
     return (
         <>
             <div className="grid-container"> 
-                { webData ? 
+                { webData.length > 0 ? 
                     <>
                     {webData[0].map((pokemon) => {
                         return <PokemonCard key={pokemon.id} pokemon={pokemon} />
