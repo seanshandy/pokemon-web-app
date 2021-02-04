@@ -58,8 +58,8 @@ function PokemonDetail() {
     
     function SavePokemon (name) {
         const localPokemon = localStorage.getItem('my-pokemon');
-        const oldPokemon = (localPokemon ? JSON.parse(localPokemon) : null);
-        const latestID = (oldPokemon ? oldPokemon[oldPokemon.length - 1].mypokemonid + 1 : 1);
+        const oldPokemon = (localPokemon.length > 0? JSON.parse(localPokemon) : null);
+        const latestID = (oldPokemon.length > 0 ? oldPokemon[oldPokemon.length - 1].mypokemonid + 1 : 1);
 
         let newPokemon = [];
 

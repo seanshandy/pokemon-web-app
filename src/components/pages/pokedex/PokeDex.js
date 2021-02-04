@@ -37,10 +37,10 @@ function PokemonList() {
     useEffect(() => {
         if (data && loadingState) {
 
-            let prevPokemons = (webData ? webData[0]: null);
+            let prevPokemons = (webData.length > 0 ? webData[0]: null);
             let updatedPokemons = [];
 
-            if(prevPokemons) {
+            if(prevPokemons.length > 0) {
                 prevPokemons.forEach(p => {
                     updatedPokemons.push(p)
                 });

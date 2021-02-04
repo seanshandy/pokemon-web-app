@@ -10,10 +10,10 @@ function Mypokemons() {
     const [pokemons, setPokemons] = useState([]);
     const [loadingState, setLoadingState] = useState(true);
     const localPokemon = localStorage.getItem('my-pokemon');
-    let pokemonData = localPokemon ? JSON.parse(localPokemon) : null;
+    let pokemonData = localPokemon.length > 0 ? JSON.parse(localPokemon) : null;
 
     useEffect(() => {
-        if(pokemonData) {
+        if(pokemonData.length > 0) {
             setPokemons(pokemonData);
         } 
         setLoadingState(false);
