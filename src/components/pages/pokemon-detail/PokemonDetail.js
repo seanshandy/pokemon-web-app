@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from'react-router-dom';
+import { useParams, useHistory } from'react-router-dom';
 import { useLazyQuery } from "@apollo/client";
+import { FaArrowCircleLeft } from "react-icons/fa";
+import { IconContext } from 'react-icons/lib';
 import { GET_POKEMON_DETAIL } from "../../../graphql/queries";
 
 import Button from "../../button/Button";
-import AddPokemon from "../../add-pokemon/AddPokemon";
+import Modal from "../../modal/Modal";
 
 import "./PokemonDetail.css";
 import "./PokemonType.css";
 
 
 function PokemonDetail() {
+    const history = useHistory();
+
     let { name } = useParams();
     let { nickname } = useParams();
 
@@ -19,6 +23,7 @@ function PokemonDetail() {
     const [getPokemon, { loading, data }] = useLazyQuery(GET_POKEMON_DETAIL, { variables: { name: name} });
     const [showModal, setShowModal] = useState(false);
     const [modalTitle, setModalTitle] = useState();
+    const [modalBody, setModalBody] = useState();
     const [catched, setCatched] = useState(false);
 
     useEffect(() => {
@@ -42,24 +47,30 @@ function PokemonDetail() {
 
 
     function CatchPokemon() {
+        setLoadingState(true);
         const chance = Math.random();
 
+        window.setTimeout(null, 1000);
+        
         if(chance > 0.5) {
             setModalTitle('Gotcha!');
+            setModalBody("Please enter a nick name");
             setCatched(true);
             setShowModal(true);
         } else {
-            setModalTitle("Oops We've lost it");
+            setModalTitle("Oops");
+            setModalBody("We've lost it, try again!");
             setCatched(false);
             setShowModal(true);
+            setLoadingState(false);
         }
     }
 
     
     function SavePokemon (name) {
-        const localPokemon = localStorage.getItem('my-pokemon');
-        const oldPokemon = (localPokemon.length > 0? JSON.parse(localPokemon) : null);
-        const latestID = (oldPokemon.length > 0 ? oldPokemon[oldPokemon.length - 1].mypokemonid + 1 : 1);
+        const localPokemon = localStorage.getItem('my-pokemon') ? localStorage.getItem('my-pokemon') : [];
+        const oldPokemon = localPokemon.length > 0? JSON.parse(localPokemon) : [];
+        const latestID = oldPokemon.length > 0 ? oldPokemon[oldPokemon.length - 1].mypokemonid + 1 : 1;
 
         let newPokemon = [];
 
@@ -79,17 +90,33 @@ function PokemonDetail() {
         }
 
         localStorage.setItem('my-pokemon', JSON.stringify(newPokemon));
-        alert(name + ' have been added to your pokemon list');
         setShowModal(false);
+
+        setShowModal(true);
+        setModalTitle('Congrats!');
+        setModalBody(name + "Have been Added to Box!");
+        setCatched(false);
+
+        nextPath('/mypokemons');
+    }
+
+    function nextPath(path) {
+        history.push(path);
     }
 
 
     return (
         <>
         <div className='p-detail-page'>
-            <AddPokemon title={modalTitle} show={showModal} catched={catched} onClose={() => setShowModal(false)}  onSavedPokemon={SavePokemon} />
-            {pokemon ? 
+            <Modal title={modalTitle} body={modalBody} show={showModal} catched={catched} onClose={() => setShowModal(false)}  onSavedPokemon={SavePokemon} />
+            
+            {!loadingState && pokemon ? 
                 <>
+                    <IconContext.Provider value={{ className:"icon-back" }}>
+                    <div onClick={() => history.goBack()} className="btn-back">
+                        <FaArrowCircleLeft />
+                    </div>
+                    </IconContext.Provider>
                     <div className="p-detail-header-container">
                         <span className="header-text">
                             {pokemon.name} &nbsp;

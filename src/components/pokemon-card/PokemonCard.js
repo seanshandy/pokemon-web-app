@@ -33,7 +33,11 @@ function PokemonCard({ pokemon }) {
                     }
                     <span className="pokemon-name">{pokemon.name}</span>
                     {
-                        (!isMypokemon ? ( <span className="pokemon-owned"> owned: {total}</span> ): null)
+                        (!isMypokemon ? ( 
+                            <>
+                            <span className="pokemon-owned">owned:</span> <span className={`pokemon-total ${total > 0 ? "owned" : "not-owned"}`}>{total}</span> 
+                            </>
+                        ): null)
                     }
                 </div>
                 

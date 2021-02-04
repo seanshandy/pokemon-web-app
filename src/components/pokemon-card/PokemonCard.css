@@ -53,8 +53,22 @@ span {
   color: var(--color-blue);
 }
 
-.pokemon-owned {
-  font-size: 0.7em;
+.pokemon-owned,
+.pokemon-total {
+  display: inline-block;
+  font-size: 0.8em;
+}
+
+.pokemon-total {
+  font-weight: bold;
+}
+
+.owned {
+  color: var(--color-blue);
+}
+
+.not-owned {
+  color: var(--color-red);
 }
 
 .mypokemon-id {

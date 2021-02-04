@@ -20,7 +20,7 @@ function Navbar() {
                 <div className="navbar-container container">
                     <NavLink className="navbar-logo" exact to='/' onClick={closeMobileMenu}>
                         <Logo className="nav-icon" />
-                        Pokemon
+                        Poke`mon
                     </NavLink>
                     <div className="menu-icon" onClick={handleClick} >
                         {click ? <FaTimes /> : <FaBars />}

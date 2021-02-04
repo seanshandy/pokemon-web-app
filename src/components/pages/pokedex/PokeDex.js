@@ -10,7 +10,7 @@ import Button from "../../button/Button";
 function PokemonList() {
     const [webData, setWebData] = useState([]);
     const [loadingState, setLoadingState] = useState(true);
-    const [nextPokemons, { loading, data }] = useLazyQuery(GET_POKEMONS);
+    const [nextPokemons, { loading, error, data }] = useLazyQuery(GET_POKEMONS);
 
     useEffect(() => {
         const localPokemon = localStorage.getItem('pokemon-data');
@@ -29,15 +29,15 @@ function PokemonList() {
         } 
 
         if (!localOffset && loadingState) {
-            nextPokemons({ variables: { limit: 20, offset: 0} });
+            nextPokemons({ variables: { limit: 5, offset: 0} });
         }
 
     }, []);
 
     useEffect(() => {
+        console.log('aaaaaa');
         if (data && loadingState) {
-
-            let prevPokemons = (webData.length > 0 ? webData[0]: null);
+            let prevPokemons = (webData.length > 0 ? webData[0]: []);
             let updatedPokemons = [];
 
             if(prevPokemons.length > 0) {
@@ -59,7 +59,8 @@ function PokemonList() {
     }, [data])
 
     useEffect(() => {
-        if (webData) {
+        if (webData.length > 0) {
+            console.log(webData);
             localStorage.setItem('pokemon-data', JSON.stringify(webData[0]));
             localStorage.setItem('pokemon-data-offset', JSON.stringify(webData[1]));
             setLoadingState(false);
@@ -83,9 +84,9 @@ function PokemonList() {
         }
     }
 
-    // if (loadingState) {
-    //     return <h1> Loading... </h1> ;
-    // }
+    if (error) {
+        return <h1> Error fetching data from </h1> ;
+    }
 
     return (
         <>
