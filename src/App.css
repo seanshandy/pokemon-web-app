@@ -43,7 +43,7 @@
   padding: 0;
   font-family: "PT Sans", sans-serif;
 
-  --color-black: #212121;
+  --color-black: #000000;
   --color-white: #ffffff;
   --color-grey: #eae9e9;
   --color-grey-lg: #f9f9f9;
@@ -55,6 +55,13 @@
   --color-blue-lg: #1687a7;
   --color-yellow: #ffa62b;
   --color-green-lg: #75cfb8;
+}
+
+a:focus,
+button:focus,
+input:focus,
+textarea:focus {
+  outline: none;
 }
 
 span {
@@ -73,6 +80,9 @@ span {
 
 .page {
   background-color: var(--color-grey-lg);
+  min-height: calc(100vh - 80px);
+  font-size: 18px;
+  padding: 40px 0;
 }
 
 .grid-container {
@@ -88,5 +98,11 @@ span {
   .container {
     padding-right: 25px;
     padding-left: 25px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .page {
+    font-size: 15px;
   }
 }

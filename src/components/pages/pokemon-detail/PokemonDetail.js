@@ -6,6 +6,8 @@ import { GET_POKEMON_DETAIL } from "../../../graphql/queries";
 import Button from "../../button/Button";
 
 import "./PokemonDetail.css";
+import "./PokemonType.css";
+
 
 function PokemonDetail() {
     let { name } = useParams();
@@ -50,6 +52,9 @@ function PokemonDetail() {
                         <div className="p-detail-container">
                             <div className="p-detail-image-container">
                                 <img className="p-detail-image" src={ pokemon.sprites.front_default } alt="image"/>
+                                <div className="catch-pokemon">
+                                    <Button text="catch"></Button>
+                                </div>
                             </div>
                             <div className="p-detail-info-container">
                                     <div className="p-detail-info-box">
@@ -77,10 +82,6 @@ function PokemonDetail() {
                                                 }
                                                 </ul>
                                             </div>
-
-                                            <div className="catch-pokemon">
-                                                <Button text="catch"></Button>
-                                            </div>
                                         </div>
                                     </div>
                                     <div className="p-detail-info-type-box">
@@ -88,7 +89,7 @@ function PokemonDetail() {
                                         {
                                             pokemon.types.map((type) => {
                                                 return (
-                                                <div key={type.type.name} className="type">  
+                                                <div key={type.type.name} className={`type type-${type.type.name}`}>  
                                                     <span>{type.type.name}</span>
                                                 </div>)
                                             })
