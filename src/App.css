@@ -106,4 +106,8 @@ span {
   .page {
     font-size: 15px;
   }
+
+  .grid-container {
+    grid-gap: 40px;
+  }
 }
