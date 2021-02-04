@@ -57,7 +57,7 @@ function PokemonDetail() {
                                 </div>
                             </div>
                             <div className="p-detail-info-container">
-                                    <div className="p-detail-info-box">
+                                    <div className={`p-detail-info-box type-${pokemon.types[0].type.name}`}>
                                         <div className="p-detail-info-box-left">
                                             <div className="box-height">
                                                 <span className="box-text-title">Height</span>
