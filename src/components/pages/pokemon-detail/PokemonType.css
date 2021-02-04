@@ -16,6 +16,10 @@
   border: 2px solid #44685e;
 }
 
+.type-value {
+  margin: 0;
+}
+
 .type-normal {
   background-color: #a8a878;
   border: 1px solid #6d6d4e;

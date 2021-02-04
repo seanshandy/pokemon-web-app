@@ -12,7 +12,6 @@ export const GET_POKEMONS = gql`
             message
             results {
                 id
-                url
                 name
                 image
             }

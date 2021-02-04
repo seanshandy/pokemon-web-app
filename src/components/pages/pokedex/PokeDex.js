@@ -3,7 +3,8 @@ import { useLazyQuery } from "@apollo/client";
 import { GET_POKEMONS } from "../../../graphql/queries";
 import PokemonCard from "../../pokemon-card/PokemonCard";
 
-import "./PokemonList.css";
+import "./PokeDex.css";
+import Button from "../../button/Button";
 
 
 function PokemonList() {
@@ -24,7 +25,6 @@ function PokemonList() {
         }
 
         if(d.length > 0) {
-            console.log(d);
             setWebData(d);
         } 
 
@@ -101,8 +101,8 @@ function PokemonList() {
             </div> 
 
             { !loadingState ?
-                <div className="btn">
-                    <button onClick={() => loadMore(webData[1])}>Load More</button>
+                <div className="load-more" onClick={() => loadMore(webData[1])}>
+                    <Button text="load more"></Button>
                 </div> : <h1>Loading...</h1>
             }
         </>

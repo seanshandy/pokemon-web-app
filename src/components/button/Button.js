@@ -4,7 +4,7 @@ import "./Button.css";
 function Button({text}) {
 
     return (
-        <button className="btn-catch">{text}</button>
+        <button className="btn">{text}</button>
     )
 }
 

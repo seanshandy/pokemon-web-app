@@ -1,5 +1,6 @@
-p {
+span {
   margin: 8px 0;
+  display: block;
 }
 
 .card {
@@ -9,6 +10,8 @@ p {
   color: var(--color-black);
   padding: 5px;
   box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.2);
+  position: relative;
+  width: 100%;
 }
 
 .card:hover {
@@ -31,18 +34,33 @@ p {
 .pokemon-info {
   padding-left: 8%;
   padding-right: 10px;
+  padding-bottom: 20px;
 }
 
 .pokemon-id {
-  font-size: 100%;
+  font-size: 1em;
   color: var(--color-grey-drk);
 }
 
 .pokemon-name {
-  font-size: 150%;
+  font-size: 1.3em;
   text-transform: capitalize;
 }
 
+.pokemon-nickname {
+  font-size: 1.6em;
+  text-transform: capitalize;
+  color: var(--color-blue);
+}
+
 .pokemon-owned {
-  font-size: 75%;
+  font-size: 0.7em;
+}
+
+.mypokemon-id {
+  position: absolute;
+  right: 30px;
+  bottom: 15px;
+  font-size: 1.5em;
+  color: var(--color-grey-drk);
 }

@@ -1,4 +1,4 @@
-.btn-catch {
+.btn {
   padding: 1.2rem;
   font-size: 1.2rem;
   outline: none;
@@ -11,8 +11,8 @@
   text-transform: uppercase;
 }
 
-.btn-catch:hover {
-  transition: all 0.1s ease-in;
+.btn:hover {
+  transition: none 0.1s ease-in;
   filter: brightness(200%);
   transform: translateY(-2px);
 }

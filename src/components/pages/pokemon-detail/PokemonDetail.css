@@ -16,6 +16,7 @@
   font-size: 0.8em;
   color: var(--color-grey-drk);
   align-self: flex-end;
+  display: inline;
 }
 
 .p-detail-container {
@@ -32,6 +33,8 @@
 .p-detail-image-container,
 .p-detail-info-container {
   width: 50%;
+  position: relative;
+  align-self: flex-start;
 }
 
 .p-detail-image {
@@ -39,14 +42,24 @@
 }
 
 .p-detail-image:hover {
-  animation: shake 1s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  animation: jump 1s;
   animation-iteration-count: infinite;
-  transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
 }
 
-.p-detail-info-container {
-  padding-top: 30px;
+.nickname-text {
+  font-size: 1.8em;
+  font-weight: bold;
+  text-transform: capitalize;
+  text-align: center;
+  color: var(--color-blue);
+}
+
+.catch-pokemon {
+  position: absolute;
+  bottom: -70px;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .p-detail-info-box {
@@ -116,15 +129,20 @@
   padding: 3%;
 }
 
-.catch-pokemon {
-  text-align: center;
-  width: 100%;
-}
-
 @media screen and (max-width: 640px) {
   .p-detail-image-container,
   .p-detail-info-container {
     width: 100%;
+  }
+
+  .p-detail-info-container {
+    padding-top: 0;
+  }
+
+  .catch-pokemon {
+    position: relative;
+    text-align: center;
+    bottom: 0;
   }
 
   .p-detail-info-box-left {
@@ -132,25 +150,28 @@
   }
 }
 
-@keyframes shake {
+@keyframes jump {
   10%,
-  90% {
-    transform: translate3d(-1px, 0, 0);
+  35% {
+    transform: translate3d(0, -3.5px, 0);
   }
 
-  20%,
-  80% {
-    transform: translate3d(2px, 0, 0);
+  25% {
+    transform: translate3d(0, -6px, 0);
   }
 
-  30%,
+  0%,
   50%,
-  70% {
-    transform: translate3d(-4px, 0, 0);
+  100% {
+    transform: translate3d(0, 0, 0);
   }
 
-  40%,
-  60% {
-    transform: translate3d(4px, 0, 0);
+  60%,
+  95% {
+    transform: translate3d(0, 3.5px, 0);
+  }
+
+  85% {
+    transform: translate3d(0, 6px, 0);
   }
 }
