@@ -33,7 +33,7 @@
 
   max-width: 400px;
   width: 60%;
-  height: 30%;
+  height: 35%;
   border: 5px solid var(--color-black);
   border-radius: 100px;
   background-image: linear-gradient(
@@ -111,12 +111,13 @@ input {
   align-items: center;
   justify-content: space-evenly;
   height: 50%;
+  padding-top: 15px;
 }
 
 @media screen and (max-width: 640px) {
   .modal-content {
     width: 280px;
-    height: 150px;
+    height: 200px;
   }
 
   .modal-body-text {

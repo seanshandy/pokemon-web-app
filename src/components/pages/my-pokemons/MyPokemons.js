@@ -29,19 +29,18 @@ function Mypokemons() {
     }, []);
 
     function ReleasePokemon () {
+        setLoadingState(false);
         const  pokemonData = pokemons;
         pokemonData.splice(pokemonData.findIndex(p => p.mypokemonid === deleteID ),1);
 
         localStorage.setItem('my-pokemon', JSON.stringify(pokemonData));
         setPokemons(pokemonData);
 
-        setLoadingState(false);
         setShowModal(false);
+        setLoadingState(false);
     }
 
     function deletePokemon (mypokemonid) {
-        setLoadingState(true);
-
         setDeleteID(mypokemonid);
         setShowModal(true);
     }
@@ -49,12 +48,6 @@ function Mypokemons() {
     useEffect(() => {
 
     }, [loadingState])
-
-    useEffect(() => {
-        if(!showModal) {
-            setLoadingState(false);
-        }
-    }, [showModal])
 
     function toPokedex() {
         history.push('/pokedex');

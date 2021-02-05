@@ -19,31 +19,47 @@ function PokemonList() {
     const [nextPokemons, { error, data }] = useLazyQuery(GET_POKEMONS);
 
     const limit = 10;
+    const maxSavedPokemonLocal = 100;
+
+    function savetoLocal (data) {
+        if(data[1] <= maxSavedPokemonLocal) {
+            localStorage.setItem('pokemon-data', JSON.stringify(webData[0]));
+            localStorage.setItem('pokemon-data-offset', JSON.stringify(webData[1]));
+        }
+    }
+
+    function loadMore(offset) {
+        setLoadingState(true);
+        nextPokemons({ variables: { limit: limit, offset:  offset} });
+    }
+
+    function toBox() {
+        history.push('/mypokemons');
+    }
 
     useEffect(() => {
         const localPokemon = localStorage.getItem('pokemon-data');
         const localOffset = localStorage.getItem('pokemon-data-offset');
         const d = [];
-        
+
         if (localPokemon) {
             d[0] = JSON.parse(localPokemon);
         }
         if (localOffset) {
             d[1] = JSON.parse(localOffset);
-        }
-
-        if(d.length > 0) {
+        }  
+        if(d.length > 0 ) {
             setWebData(d);
         } 
 
-        if (!localOffset && loadingState) {
+        if (d.length === 0) {
+            setLoadingState(true);
             nextPokemons({ variables: { limit: 10, offset: 0} });
         }
-
     }, []);
 
     useEffect(() => {
-        if (data && loadingState) {
+        if (data) {
             let prevPokemons = (webData.length > 0 ? webData[0]: []);
             let updatedPokemons = [];
 
@@ -66,33 +82,15 @@ function PokemonList() {
     }, [data])
 
     useEffect(() => {
-        if (webData.length > 0) {
-            localStorage.setItem('pokemon-data', JSON.stringify(webData[0]));
-            localStorage.setItem('pokemon-data-offset', JSON.stringify(webData[1]));
+        if (webData) {
+            savetoLocal(webData);
             setLoadingState(false);
         }
     }, [webData])
 
-    function loadMore(offset) {
-        const localOffset = localStorage.getItem('pokemon-data-offset');
-
-        if (offset === JSON.parse(localOffset)) {
-            setLoadingState(true);
-            nextPokemons({ variables: { limit: limit, offset:  offset} });
-        } else {
-            const localPokemon = localStorage.getItem('pokemon-data');
-            const localOffset = localStorage.getItem('pokemon-data-offset');
-            const d = [];
-            d[0] = JSON.parse(localPokemon);
-            d[1] = JSON.parse(localOffset);
-
-            setWebData(d);
-        }
-    }
-
-    function toBox() {
-        history.push('/mypokemons');
-    }
+    useEffect(() => {
+        return null;
+    }, [loadingState])
 
     if (error) {
         return <h1> Error fetching data from </h1> ;

@@ -46,7 +46,6 @@ function PokemonDetail() {
 
 
     function CatchPokemon() {
-        setLoadingState(true);
         const chance = Math.random();
 
         window.setTimeout(null, 1000);
@@ -61,7 +60,6 @@ function PokemonDetail() {
             setModalBody("We've lost it, try again!");
             setCatched(false);
             setShowModal(true);
-            setLoadingState(false);
         }
     }
 
@@ -92,7 +90,6 @@ function PokemonDetail() {
         localStorage.setItem('my-pokemon', JSON.stringify(newPokemon));
         setCatched(false);
         setShowModal(false);
-        setLoadingState(false);
         nextPath('/mypokemons');
     }
 
