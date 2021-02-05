@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "./PokemonCard.css";
 
 
-function PokemonCard({ pokemon }) {
+function PokemonCard({ pokemon , index}) {
     const localPokemon = localStorage.getItem('my-pokemon');
     const isMypokemon = pokemon.mypokemonid ? true : false;
     let total = 0;
@@ -42,7 +42,7 @@ function PokemonCard({ pokemon }) {
                 </div>
                 
                 {
-                    (isMypokemon ? ( <span className="mypokemon-id">{pokemon.mypokemonid}</span> ): null)
+                    (isMypokemon ? ( <span className="mypokemon-id">{index + 1}</span> ): null)
                 }
             </Link>
         </>

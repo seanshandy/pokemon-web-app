@@ -63,9 +63,9 @@ function Mypokemons() {
         {
             loadingState ? <h1>Loading...</h1> :
             pokemons.length > 0 ?
-            pokemons.map((pokemon) => {
+            pokemons.map((pokemon, idx) => {
                 return (<div className="card-container" key={pokemon.mypokemonid}>
-                    <PokemonCard pokemon={pokemon} />
+                    <PokemonCard pokemon={pokemon} index={idx}/>
                     <div className="icon-release-box" title="Release Pokemon" onClick={() => deletePokemon(pokemon.mypokemonid)}>
                         <IconContext.Provider value={{ className:"icon-release" }}>
                             < HiUserRemove />
