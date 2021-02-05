@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useLazyQuery } from "@apollo/client";
+import {  useHistory } from'react-router-dom';
 import { GET_POKEMONS } from "../../../graphql/queries";
+
 import PokemonCard from "../../pokemon-card/PokemonCard";
+import Button from "../../button/Button";
+import Box from '../../../images/icon_box.png';
+
 
 import "./PokeDex.css";
-import Button from "../../button/Button";
 
 
 function PokemonList() {
+    const history = useHistory();
+
     const [webData, setWebData] = useState([]);
     const [loadingState, setLoadingState] = useState(true);
-    const [nextPokemons, { loading, error, data }] = useLazyQuery(GET_POKEMONS);
+    const [nextPokemons, { error, data }] = useLazyQuery(GET_POKEMONS);
 
     useEffect(() => {
         const localPokemon = localStorage.getItem('pokemon-data');
@@ -35,7 +41,6 @@ function PokemonList() {
     }, []);
 
     useEffect(() => {
-        console.log('aaaaaa');
         if (data && loadingState) {
             let prevPokemons = (webData.length > 0 ? webData[0]: []);
             let updatedPokemons = [];
@@ -60,7 +65,7 @@ function PokemonList() {
 
     useEffect(() => {
         if (webData.length > 0) {
-            console.log(webData);
+            // console.log(webData);
             localStorage.setItem('pokemon-data', JSON.stringify(webData[0]));
             localStorage.setItem('pokemon-data-offset', JSON.stringify(webData[1]));
             setLoadingState(false);
@@ -84,12 +89,19 @@ function PokemonList() {
         }
     }
 
+    function toBox() {
+        history.push('/mypokemons');
+    }
+
     if (error) {
         return <h1> Error fetching data from </h1> ;
     }
 
     return (
         <>
+            <div className="icon-box-container" onClick={() => toBox()}>
+                <img src={Box} alt="box" className="icon-box"/>
+            </div>
             <div className="grid-container"> 
                 { webData.length > 0 ? 
                     <>

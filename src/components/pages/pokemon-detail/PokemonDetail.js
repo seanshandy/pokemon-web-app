@@ -20,7 +20,7 @@ function PokemonDetail() {
 
     const [pokemon, setPokemon] = useState();
     const [loadingState, setLoadingState] = useState(true);
-    const [getPokemon, { loading, data }] = useLazyQuery(GET_POKEMON_DETAIL, { variables: { name: name} });
+    const [getPokemon, { data }] = useLazyQuery(GET_POKEMON_DETAIL, { variables: { name: name} });
     const [showModal, setShowModal] = useState(false);
     const [modalTitle, setModalTitle] = useState();
     const [modalBody, setModalBody] = useState();
@@ -121,8 +121,8 @@ function PokemonDetail() {
                     </div>
 
                     <div className="p-detail-container">
-                        <div className="p-detail-image-container">
-                            <img className="p-detail-image" src={ pokemon.sprites.front_default } alt="image"/>
+                        <div className="p-detail-img-container">
+                            <img className="p-detail-img" src={ pokemon.sprites.front_default } alt={pokemon.name}/>
                             {
                                 nickname ? <span className="nickname-text">{nickname}</span> :
                             <div className="catch-pokemon" onClick={() => CatchPokemon(pokemon)}>

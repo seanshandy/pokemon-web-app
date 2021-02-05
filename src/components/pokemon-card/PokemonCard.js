@@ -6,7 +6,7 @@ import "./PokemonCard.css";
 
 function PokemonCard({ pokemon }) {
     const localPokemon = localStorage.getItem('my-pokemon');
-    const isMypokemon = pokemon.nickname ? true : false;
+    const isMypokemon = pokemon.mypokemonid ? true : false;
     let total = 0;
         
     if(!isMypokemon && localPokemon) {
@@ -35,7 +35,7 @@ function PokemonCard({ pokemon }) {
                     {
                         (!isMypokemon ? ( 
                             <>
-                            <span className="pokemon-owned">owned:</span> <span className={`pokemon-total ${total > 0 ? "owned" : "not-owned"}`}>{total}</span> 
+                            <span className="pokemon-captured">captured:</span> <span className={`pokemon-total ${total > 0 ? "captured" : "not-captured"}`}>{total}</span> 
                             </>
                         ): null)
                     }

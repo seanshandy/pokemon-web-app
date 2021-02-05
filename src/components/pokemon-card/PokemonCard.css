@@ -53,7 +53,7 @@ span {
   color: var(--color-blue);
 }
 
-.pokemon-owned,
+.pokemon-captured,
 .pokemon-total {
   display: inline-block;
   font-size: 0.8em;
@@ -63,11 +63,11 @@ span {
   font-weight: bold;
 }
 
-.owned {
+.captured {
   color: var(--color-blue);
 }
 
-.not-owned {
+.not-captured {
   color: var(--color-red);
 }
 

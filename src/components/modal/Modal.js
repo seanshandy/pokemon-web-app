@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import "./Modal.css";
 
 const Modal = props => {
@@ -18,7 +18,7 @@ const Modal = props => {
     }
 
     function handleClickOutside(e) {
-        if (props.catched != undefined || props.catched === true) {
+        if (props.catched !== undefined || props.catched === true) {
             e.stopPropagation();
         } else {
             return props.onClose();

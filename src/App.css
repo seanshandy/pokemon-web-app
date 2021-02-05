@@ -82,14 +82,13 @@ span {
   background-color: var(--color-grey-lg);
   min-height: calc(100vh - 80px);
   font-size: 18px;
-  padding: 40px 0;
+  padding: 65px 25px;
 }
 
 .grid-container {
   width: 100%;
   display: grid;
   margin: 0 auto;
-  padding: 20px 0;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   grid-gap: 20px;
   justify-items: center;
