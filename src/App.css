@@ -82,9 +82,7 @@ span {
   background-color: var(--color-grey-lg);
   min-height: calc(100vh - 80px);
   font-size: 18px;
-  padding: 0 25px;
-  padding-top: 90px;
-  padding-bottom: 50px;
+  padding: 70px 20px 50px;
 }
 
 .grid-container {

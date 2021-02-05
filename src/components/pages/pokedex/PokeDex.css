@@ -14,7 +14,7 @@
   flex-flow: row;
   position: absolute;
   justify-content: center;
-  top: 98px;
+  top: 88px;
   left: 0;
   width: 100%;
 }
@@ -34,7 +34,7 @@
 .icon-box-container {
   position: absolute;
   left: 50%;
-  top: 98px;
+  top: 90px;
   cursor: pointer;
   transform: translate(-50%, 0);
 }

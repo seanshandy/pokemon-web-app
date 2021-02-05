@@ -7,7 +7,7 @@
 .icon-pokedex-container {
   position: absolute;
   left: 50%;
-  top: 98px;
+  top: 90px;
   cursor: pointer;
   transform: translate(-50%, 0);
 }
