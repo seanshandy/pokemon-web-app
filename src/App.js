@@ -38,11 +38,11 @@ const client = new ApolloClient({
 
 function App() {
   const visitedNew = localStorage.getItem('visited-new') ? JSON.parse(localStorage.getItem('visited-new')) : false;
+  localStorage.removeItem('pokemon-data');
+  localStorage.removeItem('pokemon-data-offset');
   
   if(visitedNew === false) {
     localStorage.removeItem('my-pokemon');
-    localStorage.removeItem('pokemon-data');
-    localStorage.removeItem('pokemon-data-offset');
     localStorage.setItem('visited-new', true);
   }
 

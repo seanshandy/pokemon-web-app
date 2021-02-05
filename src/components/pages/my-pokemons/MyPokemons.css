@@ -6,13 +6,14 @@
 
 .icon-pokedex-container {
   position: absolute;
-  right: 50%;
-  top: 95px;
+  left: 50%;
+  top: 98px;
   cursor: pointer;
+  transform: translate(-50%, 0);
 }
 
 .icon-pokedex-container:hover {
-  transform: translateY(-5px);
+  transform: translate(-20px, -5px);
   filter: drop-shadow(2px 4px 4px var(--color-black));
 }
 
