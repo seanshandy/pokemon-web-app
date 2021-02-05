@@ -40,7 +40,6 @@ function PokemonDetail() {
 
     useEffect(() => {
         if (pokemon) {
-            console.log(pokemon);
             setLoadingState(false);
         }
     }, [pokemon])
@@ -54,7 +53,7 @@ function PokemonDetail() {
         
         if(chance > 0.5) {
             setModalTitle('Gotcha!');
-            setModalBody("Please enter a nick name");
+            setModalBody("Give a nickname?");
             setCatched(true);
             setShowModal(true);
         } else {
@@ -67,7 +66,8 @@ function PokemonDetail() {
     }
 
     
-    function SavePokemon (name) {
+    function SavePokemon (nickname) {
+        const newNickname = nickname !== '' ? nickname : pokemon.name;
         const localPokemon = localStorage.getItem('my-pokemon') ? localStorage.getItem('my-pokemon') : [];
         const oldPokemon = localPokemon.length > 0? JSON.parse(localPokemon) : [];
         const latestID = oldPokemon.length > 0 ? oldPokemon[oldPokemon.length - 1].mypokemonid + 1 : 1;
@@ -79,7 +79,7 @@ function PokemonDetail() {
             name: pokemon.name,
             image: pokemon.sprites.front_default,
             mypokemonid: latestID,
-            nickname: name, 
+            nickname: newNickname, 
         }
         
         if (latestID === 1) {
@@ -92,9 +92,8 @@ function PokemonDetail() {
         localStorage.setItem('my-pokemon', JSON.stringify(newPokemon));
         setCatched(false);
         setShowModal(false);
-
+        setLoadingState(false);
         nextPath('/mypokemons');
-
     }
 
     function nextPath(path) {
@@ -109,7 +108,7 @@ function PokemonDetail() {
             {!loadingState && pokemon ? 
                 <>
                     <IconContext.Provider value={{ className:"icon-back" }}>
-                    <div onClick={() => history.goBack()} className="btn-back">
+                    <div onClick={() => history.goBack()} title="Go Back" className="btn-back">
                         <FaArrowCircleLeft />
                     </div>
                     </IconContext.Provider>
@@ -150,7 +149,7 @@ function PokemonDetail() {
                                                 pokemon.abilities.map((ab) => {
                                                     return (
                                                     <li key={ab.ability.name} className="box-text-value abilities" >
-                                                        <span>{ab.ability.name}</span>
+                                                        {ab.ability.name}
                                                     </li>)
                                                 })
                                             }

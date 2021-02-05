@@ -18,6 +18,8 @@ function PokemonList() {
     const [loadingState, setLoadingState] = useState(true);
     const [nextPokemons, { error, data }] = useLazyQuery(GET_POKEMONS);
 
+    const limit = 10;
+
     useEffect(() => {
         const localPokemon = localStorage.getItem('pokemon-data');
         const localOffset = localStorage.getItem('pokemon-data-offset');
@@ -35,7 +37,7 @@ function PokemonList() {
         } 
 
         if (!localOffset && loadingState) {
-            nextPokemons({ variables: { limit: 5, offset: 0} });
+            nextPokemons({ variables: { limit: 10, offset: 0} });
         }
 
     }, []);
@@ -65,7 +67,6 @@ function PokemonList() {
 
     useEffect(() => {
         if (webData.length > 0) {
-            // console.log(webData);
             localStorage.setItem('pokemon-data', JSON.stringify(webData[0]));
             localStorage.setItem('pokemon-data-offset', JSON.stringify(webData[1]));
             setLoadingState(false);
@@ -77,7 +78,7 @@ function PokemonList() {
 
         if (offset === JSON.parse(localOffset)) {
             setLoadingState(true);
-            nextPokemons({ variables: { limit: 20, offset:  offset} });
+            nextPokemons({ variables: { limit: limit, offset:  offset} });
         } else {
             const localPokemon = localStorage.getItem('pokemon-data');
             const localOffset = localStorage.getItem('pokemon-data-offset');
@@ -99,7 +100,7 @@ function PokemonList() {
 
     return (
         <>
-            <div className="icon-box-container" onClick={() => toBox()}>
+            <div className="icon-box-container" title="MyPokemons" onClick={() => toBox()}>
                 <img src={Box} alt="box" className="icon-box"/>
             </div>
             <div className="grid-container"> 

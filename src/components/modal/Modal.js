@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import Button from "../button/Button";
 import "./Modal.css";
 
 const Modal = props => {
     const [nickname, setNickname] = useState('');
 
     function savePokemon(name) {
-        name.trim() === '' ? props.onSavedPokemon('-') : 
         props.onSavedPokemon(name.trim()); 
     }
 
@@ -28,30 +28,46 @@ const Modal = props => {
 
     return (
         <>
-            <div className={`modal ${props.show ? 'show' : ''} )`} onClick={(e) => handleClickOutside(e)}>
+            <div className={`modal ${props.show ? 'show' : ''}`} onClick={(e) => handleClickOutside(e)}>
                 <div className="modal-content" onClick={e => e.stopPropagation()}>
                     <div className="modal-header">
                         <h4>{props.title}</h4>
                     </div>
                     
                     <div className="modal-body">
-                        {props.body}
+                            <span className="modal-body-text">{props.body}</span>
                         {
-                            props.catched ? <textarea value={nickname} onChange={handleChange} /> : null
+                            props.catched ? <input type="text" className="form-nickname" value={nickname} onChange={handleChange} /> : null
                         }
                     </div>
 
                     <div className="modal-footer">
                         <>
                             {
-                                props.catched ? <button className="btn-modal" onClick={() => savePokemon(nickname)}>Submit</button> : 
-                                (props.release ? null : <button className="btn-modal" onClick={props.onClose}>Close</button>)
+                                props.catched ? 
+                                <>
+                                    <div onClick={() => savePokemon(nickname)}> 
+                                        <Button text="OK" size="size-modal"></Button>
+                                    </div>
+                                    <div onClick={() => savePokemon(nickname)}> 
+                                        <Button text="NO" size="size-modal"></Button>
+                                    </div>
+                                </> 
+                                : !props.release ? 
+                                <div onClick={props.onClose}> 
+                                    <Button text="NO" size="size-modal"></Button>
+                                </div> 
+                                : null
                             }
                             {
-                                props.release ? 
+                                props.release && !props.catched ? 
                                 <>
-                                <button className="btn-modal" onClick={() => releasePokemon()}>Submit</button>
-                                <button className="btn-modal" onClick={props.onClose}>Cancel</button> 
+                                <div onClick={() => releasePokemon()}>
+                                    <Button text="OK" size="size-modal"></Button>
+                                </div>
+                                <div onClick={props.onClose}> 
+                                    <Button text="Cancel" size="size-modal"></Button>
+                                </div>
                                 </>: null
                             }
                         </>

@@ -62,10 +62,10 @@ function Mypokemons() {
 
     return (
         <>
-        <Modal title={'Release Pokemon'} body={'Are you sure want to release this Pokemon?'} show={showModal} onClose={() => setShowModal(false)} onReleasePokemon={ReleasePokemon} release="release" />
-       <div className="icon-pokedex-container" onClick={() => toPokedex()}>
-            <img src={Pokedex} alt="Pokedex" className="icon-pokedex"/>
-       </div>
+        <Modal title={'Release'} body={'Are you sure want to release this Pokemon?'} show={showModal} onClose={() => setShowModal(false)} onReleasePokemon={ReleasePokemon} release="release" />
+        <div className="icon-pokedex-container" onClick={() => toPokedex()}>
+            <img src={Pokedex} alt="Pokedex" title="Poke`dex" className="icon-pokedex"/>
+        </div>
         <div className="grid-container"> 
         {
             loadingState ? <h1>Loading...</h1> :
@@ -73,7 +73,7 @@ function Mypokemons() {
             pokemons.map((pokemon) => {
                 return (<div className="card-container" key={pokemon.mypokemonid}>
                     <PokemonCard pokemon={pokemon} />
-                    <div className="icon-release-box" onClick={() => deletePokemon(pokemon.mypokemonid)}>
+                    <div className="icon-release-box" title="Release Pokemon" onClick={() => deletePokemon(pokemon.mypokemonid)}>
                         <IconContext.Provider value={{ className:"icon-release" }}>
                             < HiUserRemove />
                         </IconContext.Provider>

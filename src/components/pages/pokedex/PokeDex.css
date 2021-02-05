@@ -6,7 +6,7 @@
 
 .icon-box-container {
   position: absolute;
-  left: 35px;
+  right: 50%;
   top: 95px;
   cursor: pointer;
 }
@@ -17,13 +17,14 @@
 }
 
 .icon-box {
-  width: 40px;
+  width: 50px;
   height: 100%;
 }
 
 .load-more {
   position: relative;
   text-align: center;
+  padding-top: 25px;
 }
 
 @media screen and (max-width: 640px) {

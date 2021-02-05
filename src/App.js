@@ -17,7 +17,6 @@ import PokemonDetail from "./components/pages/pokemon-detail/PokemonDetail";
 import ErrorPage from "./components/pages/error-page/ErrorPage";
 
 
-
 const errorLink = onError(({ graphqlErrors, networkError }) => {
   if (graphqlErrors) {
     graphqlErrors.map(({ message, location, path }) => {
@@ -38,6 +37,15 @@ const client = new ApolloClient({
 });
 
 function App() {
+  const visitedNew = localStorage.getItem('visited-new') ? JSON.parse(localStorage.getItem('visited-new')) : false;
+  
+  if(visitedNew === false) {
+    localStorage.removeItem('my-pokemon');
+    localStorage.removeItem('pokemon-data');
+    localStorage.removeItem('pokemon-data-offset');
+    localStorage.setItem('visited-new', true);
+  }
+
   return (
     <ApolloProvider client={client}>
     <Router basename='/'>

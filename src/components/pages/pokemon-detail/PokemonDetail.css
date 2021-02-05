@@ -60,9 +60,6 @@
 
 .p-detail-img {
   width: 100%;
-}
-
-.p-detail-img:hover {
   animation: jump 1s;
   animation-iteration-count: infinite;
   backface-visibility: hidden;
@@ -115,6 +112,7 @@
   font-weight: bold;
   padding: 5px;
   width: 100%;
+  margin: 0;
 }
 
 .box-text-value {
