@@ -21,7 +21,6 @@ function PokemonList() {
     const limit = 12;
 
     function savetoLocal (data) {
-        console.log(webData.nextOffset-(limit*2) );
         localStorage.setItem('pokemon-last-offset', JSON.stringify(data.nextOffset));
     }
 
