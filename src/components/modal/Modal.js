@@ -47,7 +47,7 @@ const Modal = props => {
                                 props.catched ? 
                                 <>
                                     <div onClick={() => savePokemon(nickname)}> 
-                                        <Button text="OK" size="size-modal"></Button>
+                                        <Button text="SUBMIT" size="size-modal"></Button>
                                     </div>
                                     <div onClick={() => savePokemon(nickname)}> 
                                         <Button text="NO" size="size-modal"></Button>
@@ -55,7 +55,7 @@ const Modal = props => {
                                 </> 
                                 : !props.release ? 
                                 <div onClick={props.onClose}> 
-                                    <Button text="NO" size="size-modal"></Button>
+                                    <Button text="OK" size="size-modal"></Button>
                                 </div> 
                                 : null
                             }
