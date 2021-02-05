@@ -76,7 +76,7 @@ function PokemonList() {
                         <Button text="prev" size="size-modal"></Button>
                     </div> : null
                 }
-                <div className="btn-next" onClick={() => loadPokemons(webData.nextOffset)}>
+                <div className={`btn-next ${webData.nextOffset-(limit*2) <= 0 ? 'single-btn': ''}`}onClick={() => loadPokemons(webData.nextOffset)}>
                         <Button text="next" size="size-modal"></Button>
                 </div>
             </div>
