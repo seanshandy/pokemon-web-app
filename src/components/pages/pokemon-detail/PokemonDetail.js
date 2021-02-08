@@ -69,7 +69,7 @@ function PokemonDetail() {
     }
 
     function onReleasePokemon() {
-        mypokemons.splice(mypokemons.findIndex(p => p.mypokemonid === mypokemonid ),1);
+        mypokemons.splice(mypokemons.findIndex(p => Number(p.mypokemonid) === Number(mypokemonid) ),1);
         UpdateMyPokemons(mypokemons);
         setReleased(false);
         setShowModal(false);
@@ -123,7 +123,7 @@ function PokemonDetail() {
                                     </div>
                                     {
                                         mypokemon ? 
-                                        <div className="btn-release-pokemon" onClick={() => showReleaseConfirmation(mypokemonid)}>
+                                        <div className="btn-release-pokemon" onClick={() => showReleaseConfirmation()}>
                                             <Button text="release" size="size-normal"></Button>
                                         </div> 
                                         : null
