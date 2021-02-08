@@ -71,6 +71,7 @@ function PokemonDetail() {
     function onReleasePokemon() {
         mypokemons.splice(mypokemons.findIndex(p => p.mypokemonid === mypokemonid ),1);
         UpdateMyPokemons(mypokemons);
+        setReleased(false);
         setShowModal(false);
         nextPath('/mypokemons');
     }

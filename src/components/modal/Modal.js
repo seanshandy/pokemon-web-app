@@ -117,22 +117,22 @@ const Modal = props => {
                         {
                             isCatched && !isNickname ? 
                             <>
-                                <div onClick={() => GiveNickname()}> 
+                                <div onClick={() => GiveNickname()} className="btn-modal"> 
                                     <Button text="YES" size="size-modal"></Button>
                                 </div>
-                                <div onClick={() => defaultNickName()}> 
+                                <div onClick={() => defaultNickName()} className="btn-modal"> 
                                     <Button text="DEFAULT" size="size-modal"></Button>
                                 </div>
                             </>
                             : !isReleased && !isNickname ?
-                            <div onClick={props.onClose}> 
+                            <div onClick={props.onClose} className="btn-modal"> 
                                 <Button text="OK" size="size-modal"></Button>
                             </div> : null
                         }
 
                         {
                             isNickname ? 
-                            <div onClick={() => savePokemon()}> 
+                            <div onClick={() => savePokemon()} className="btn-modal"> 
                                 <Button text="SAVE" size="size-modal"></Button>
                             </div> : null
                             
@@ -141,8 +141,8 @@ const Modal = props => {
                         {
                             isReleased && !isCatched ? 
                             <>
-                            <div onClick={() => releasePokemon()}>
-                                <Button text="Confirm" size="size-modal"></Button>
+                            <div onClick={() => releasePokemon()} className="btn-modal">
+                                <Button text="Confirm" size="size-modal" ></Button>
                             </div>
                             <div onClick={props.onClose}> 
                                 <Button text="Cancel" size="size-modal"></Button>

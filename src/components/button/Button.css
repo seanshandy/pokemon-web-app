@@ -34,7 +34,7 @@
 @media screen and (max-width: 640px) {
 	.size-modal,
 	.size-normal {
-		font-size: 0.7rem;
-		width: 90px;
+		font-size: 0.6rem;
+		width: 80px;
 	}
 }
