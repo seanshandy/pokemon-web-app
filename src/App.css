@@ -1,74 +1,78 @@
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: "PT Sans", sans-serif;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	font-family: 'PT Sans', sans-serif;
 
-  --color-black: #000000;
-  --color-white: #ffffff;
-  --color-grey: #eae9e9;
-  --color-grey-lg: #f9f9f9;
-  --color-grey-drk: #898888;
+	--color-black: #000000;
+	--color-white: #ffffff;
+	--color-grey: #eae9e9;
+	--color-grey-lg: #f9f9f9;
+	--color-grey-drk: #898888;
 
-  --color-red: #ff0000;
-  --color-red-drk: #cc0000;
-  --color-blue: #161d6f;
-  --color-blue-lg: #1687a7;
-  --color-yellow: #ffa62b;
-  --color-green-lg: #75cfb8;
+	--color-red: #ff0000;
+	--color-red-drk: #cc0000;
+	--color-blue: #161d6f;
+	--color-blue-lg: #1687a7;
+	--color-yellow: #ffa62b;
+	--color-green-lg: #75cfb8;
 }
 
 a:focus,
-button:focus,
-input:focus,
-textarea:focus {
-  outline: none;
+button:focus {
+	outline: none;
 }
 
 span {
-  cursor: default;
+	cursor: default;
 }
 
 .container {
-  z-index: 1;
-  width: 100%;
-  max-width: 1600px;
-  margin-right: auto;
-  margin-left: auto;
-  padding-right: 50px;
-  padding-left: 50px;
+	z-index: 1;
+	width: 100%;
+	max-width: 1600px;
+	margin-right: auto;
+	margin-left: auto;
+	padding-right: 50px;
+	padding-left: 50px;
 }
 
 .page {
-  background-color: var(--color-grey-lg);
-  min-height: calc(100vh - 80px);
-  font-size: 18px;
-  padding: 50px 20px;
+	background-color: var(--color-grey-lg);
+	min-height: calc(100vh - 80px);
+	font-size: 18px;
+	padding: 50px 20px;
 }
 
 .grid-container {
-  width: 100%;
-  padding-top: 45px;
-  display: grid;
-  margin: 0 auto;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  grid-gap: 20px;
-  justify-items: center;
+	width: 100%;
+	padding-top: 45px;
+	display: grid;
+	margin: 0 auto;
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	grid-gap: 20px;
+	justify-items: center;
+}
+
+.h1 {
+	font-size: 50px;
+	color: var(--color-black);
+	font-weight: bold;
 }
 
 @media screen and (max-width: 991px) {
-  .container {
-    padding-right: 25px;
-    padding-left: 25px;
-  }
+	.container {
+		padding-right: 25px;
+		padding-left: 25px;
+	}
 }
 
 @media screen and (max-width: 640px) {
-  .page {
-    font-size: 15px;
-  }
+	.page {
+		font-size: 15px;
+	}
 
-  .grid-container {
-    grid-gap: 40px;
-  }
+	.grid-container {
+		grid-gap: 40px;
+	}
 }

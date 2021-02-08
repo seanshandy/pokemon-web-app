@@ -1,53 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import {  useHistory } from'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { useHistory } from'react-router-dom';
 import { HiUserRemove } from "react-icons/hi";
 import { IconContext } from 'react-icons/lib';
 
-import Pokedex from '../../../images/icon_pokedex.png';
+import { UpdateMyPokemons } from "../../../utils/PokemonService";
+import { PokemonData } from '../../../contexts/MyPokemonContext';
 import PokemonCard from "../../pokemon-card/PokemonCard";
 import Modal from "../../modal/Modal";
+
+import Pokedex from '../../../images/icon_pokedex.png';
 import "./MyPokemons.css";
 
 
 function Mypokemons() {
     const history = useHistory();
-
-    const [pokemons, setPokemons] = useState([]);
-    const [loadingState, setLoadingState] = useState(true);
+    const { mypokemons } = useContext(PokemonData);
     const [showModal, setShowModal] = useState(false);
-    const [deleteID, setDeleteID] = useState([]);
+    const [selectedPokemonID, setSelectedPokemonID] = useState(0);
+    const released = true;
 
-
-    useEffect(() => {
-        const localPokemon = localStorage.getItem('my-pokemon') ? localStorage.getItem('my-pokemon') : [];
-        const pokemonData = localPokemon.length > 0 ? JSON.parse(localPokemon) : [];
-
-        if(pokemonData.length > 0) {
-            setPokemons(pokemonData);
-        } 
-        setLoadingState(false);
-    }, []);
-
-    function ReleasePokemon () {
-        setLoadingState(false);
-        const  pokemonData = pokemons;
-        pokemonData.splice(pokemonData.findIndex(p => p.mypokemonid === deleteID ),1);
-
-        localStorage.setItem('my-pokemon', JSON.stringify(pokemonData));
-        setPokemons(pokemonData);
-
-        setShowModal(false);
-        setLoadingState(false);
-    }
-
-    function deletePokemon (mypokemonid) {
-        setDeleteID(mypokemonid);
+    function showConfirmation(mypokemonid) {
         setShowModal(true);
+        setSelectedPokemonID(mypokemonid);
     }
 
-    useEffect(() => {
-
-    }, [loadingState])
+    function onReleasePokemon() {
+        mypokemons.splice(mypokemons.findIndex(p => p.mypokemonid === selectedPokemonID ),1);
+        UpdateMyPokemons(mypokemons);
+        setShowModal(false);
+    }
 
     function toPokedex() {
         history.push('/pokedex');
@@ -55,18 +36,20 @@ function Mypokemons() {
 
     return (
         <>
-        <Modal title={'Release'} body={'Are you sure want to release this Pokemon?'} show={showModal} onClose={() => setShowModal(false)} onReleasePokemon={ReleasePokemon} release="release" />
+        <Modal title={'Release'} body={'Are you sure want to release this Pokemon?'} show={showModal} 
+        onClose={() => setShowModal(false)} onReleasePokemon={onReleasePokemon} 
+        released={released} />
+        
         <div className="icon-pokedex-container" onClick={() => toPokedex()}>
             <img src={Pokedex} alt="Pokedex" title="Poke`dex" className="icon-pokedex"/>
         </div>
         <div className="grid-container"> 
         {
-            loadingState ? <h1>Loading...</h1> :
-            pokemons.length > 0 ?
-            pokemons.map((pokemon, idx) => {
+            mypokemons.length > 0 ? 
+            mypokemons.map((pokemon, idx) => {
                 return (<div className="card-container" key={pokemon.mypokemonid}>
                     <PokemonCard pokemon={pokemon} index={idx}/>
-                    <div className="icon-release-box" title="Release Pokemon" onClick={() => deletePokemon(pokemon.mypokemonid)}>
+                    <div className="icon-release-box" title="Release Pokemon" onClick={() => showConfirmation(pokemon.mypokemonid)}>
                         <IconContext.Provider value={{ className:"icon-release" }}>
                             < HiUserRemove />
                         </IconContext.Provider>

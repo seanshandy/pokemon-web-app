@@ -1,6 +1,5 @@
-import './App.css';
-import  Navbar  from "./components/navbar/Navbar";
-import React from 'react';
+import "./App.css";
+import React, { useEffect, useMemo, useState } from 'react';
 import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import {
   ApolloClient,
@@ -11,10 +10,14 @@ import {
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 
+import Navbar  from "./components/navbar/Navbar";
 import PokeDex from "./components/pages/pokedex/PokeDex";
 import MyPokemons from "./components/pages/my-pokemons/MyPokemons";
 import PokemonDetail from "./components/pages/pokemon-detail/PokemonDetail";
 import ErrorPage from "./components/pages/error-page/ErrorPage";
+
+import { GetLastOffset, GetMyPokemons , UpdateLastOffset, UpdateMyPokemons } from "./utils/PokemonService";
+import { PokemonData } from "./contexts/MyPokemonContext";
 
 
 const errorLink = onError(({ graphqlErrors, networkError }) => {
@@ -37,31 +40,43 @@ const client = new ApolloClient({
 });
 
 function App() {
-  const visitedNew = localStorage.getItem('visited-new') ? JSON.parse(localStorage.getItem('visited-new')) : false;
-  localStorage.removeItem('pokemon-data');
-  localStorage.removeItem('pokemon-data-offset');
-  
-  if(visitedNew === false) {
-    localStorage.removeItem('my-pokemon');
-    localStorage.setItem('visited-new', true);
-  }
+  const [mypokemons, setMypokemons] = useState([]);
+  const [lastOffset, setLastOffset] = useState(0);
+
+  const data = useMemo(() => ({ mypokemons, lastOffset, setMypokemons, setLastOffset }), [mypokemons, lastOffset , setMypokemons, setLastOffset]);
+
+  useEffect(() => {
+    GetMyPokemons().then((p) => {
+      setMypokemons(p);
+      UpdateMyPokemons(p);
+    });
+
+    GetLastOffset().then((o) => {
+      setLastOffset(o);
+      UpdateLastOffset(o);
+    });
+  }, [])    
 
   return (
     <ApolloProvider client={client}>
     <Router basename='/'>
       <Navbar />
-        <div className="container page">
-          <Switch >
-            <Route exact path='/'>
-              <Redirect to="/pokedex" component={PokeDex}/>
-            </Route>
-            <Route exact path='/pokedex' component={PokeDex} />
-            <Route exact path='/mypokemons' component={MyPokemons}/>
-            <Route exact path='/pokemon/:name' component={PokemonDetail}/>
-            <Route exact path='/pokemon/:name/:nickname' component={PokemonDetail}/>
-            <Route exact path='*' component={ErrorPage} />
-          </Switch>
-        </div>
+        <PokemonData.Provider value={data}>
+          { lastOffset && mypokemons ?
+            <div className="container page">
+              <Switch>
+                <Route exact path='/'>
+                  <Redirect to="/pokedex" component={PokeDex}/>
+                </Route>
+                <Route exact path='/pokedex' component={PokeDex} />
+                <Route exact path='/mypokemons' component={MyPokemons}/>
+                <Route exact path='/pokemon/:name' component={PokemonDetail}/>
+                <Route exact path='/pokemon/:name/:mypokemonid' component={PokemonDetail}/>
+                <Route exact path='*' component={ErrorPage} />
+              </Switch>
+            </div> : <h1>Loading...</h1>
+          }
+        </PokemonData.Provider>
     </Router>
     </ApolloProvider>
   );

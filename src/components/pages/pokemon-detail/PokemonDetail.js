@@ -1,94 +1,76 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useContext, useEffect} from 'react';
 import { useParams, useHistory } from'react-router-dom';
-import { useLazyQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { FaArrowCircleLeft } from "react-icons/fa";
 import { IconContext } from 'react-icons/lib';
+
 import { GET_POKEMON_DETAIL } from "../../../graphql/queries";
+import { PokemonData } from '../../../contexts/MyPokemonContext';
+import { UpdateMyPokemons } from "../../../utils/PokemonService";
 
 import Button from "../../button/Button";
 import Modal from "../../modal/Modal";
-
 import "./PokemonDetail.css";
 import "./PokemonType.css";
 
 
 function PokemonDetail() {
     const history = useHistory();
+    const { name } = useParams();
+    const { mypokemonid } = useParams();
+    const { mypokemons } = useContext(PokemonData);
+    const [ mypokemon, setMypokemon ] = useState();
 
-    let { name } = useParams();
-    let { nickname } = useParams();
-
-    const [pokemon, setPokemon] = useState();
-    const [loadingState, setLoadingState] = useState(true);
-    const [getPokemon, { data }] = useLazyQuery(GET_POKEMON_DETAIL, { variables: { name: name} });
+    const { data } = useQuery(GET_POKEMON_DETAIL, { variables: { name: name} });
     const [showModal, setShowModal] = useState(false);
     const [modalTitle, setModalTitle] = useState();
     const [modalBody, setModalBody] = useState();
     const [catched, setCatched] = useState(false);
+    const [released, setReleased] = useState(false);
 
-    useEffect(() => {
-        setLoadingState(true);
-        getPokemon();
-    }, []);
-
-
-    useEffect(() => {
-        if (data && loadingState) {
-            setPokemon(data.pokemon);
-        }
-    }, [data])
-
-    useEffect(() => {
-        if (pokemon) {
-            setLoadingState(false);
-        }
-    }, [pokemon])
-
-
-    function CatchPokemon() {
+    function onCatch() {
         const chance = Math.random();
-
-        window.setTimeout(null, 1000);
         
         if(chance > 0.5) {
+            setCatched(true);
             setModalTitle('Gotcha!');
             setModalBody("Give a nickname?");
-            setCatched(true);
             setShowModal(true);
-        } else {
+            } else {
             setModalTitle("Oops");
             setModalBody("We've lost it, try again!");
             setCatched(false);
             setShowModal(true);
         }
     }
-
     
-    function SavePokemon (nickname) {
-        const newNickname = nickname !== '' ? nickname : pokemon.name;
-        const localPokemon = localStorage.getItem('my-pokemon') ? localStorage.getItem('my-pokemon') : [];
-        const oldPokemon = localPokemon.length > 0? JSON.parse(localPokemon) : [];
-        const latestID = oldPokemon.length > 0 ? oldPokemon[oldPokemon.length - 1].mypokemonid + 1 : 1;
-
-        let newPokemon = [];
-
-        const data = {
-            id: pokemon.id,
-            name: pokemon.name,
-            image: pokemon.sprites.front_default,
+    function onSavePokemon (nickname) {
+        const latestID = mypokemons.length > 0 ? mypokemons[mypokemons.length - 1].mypokemonid + 1 : 1;
+        const newpokemon = {
+            id: data.pokemon.id,
+            name: data.pokemon.name,
+            image: data.pokemon.sprites.front_default,
             mypokemonid: latestID,
-            nickname: newNickname, 
+            nickname: nickname === '' ? data.pokemon.name : nickname, 
         }
-        
-        if (latestID === 1) {
-            newPokemon.push(data);
-        } else {
-            newPokemon = oldPokemon;
-            newPokemon.push(data);
-        }
+        mypokemons.push(newpokemon);
+        UpdateMyPokemons(mypokemons);
 
-        localStorage.setItem('my-pokemon', JSON.stringify(newPokemon));
         setCatched(false);
+        setShowModal(false);
+        nextPath('/mypokemons');
+    }
+
+    function showReleaseConfirmation() {
+        setModalTitle("Release");
+        setModalBody("Are you sure want to release this Pokemon?");
+        setReleased(true);
+        setShowModal(true);
+    }
+
+    function onReleasePokemon() {
+        mypokemons.splice(mypokemons.findIndex(p => p.mypokemonid === mypokemonid ),1);
+        UpdateMyPokemons(mypokemons);
         setShowModal(false);
         nextPath('/mypokemons');
     }
@@ -97,13 +79,25 @@ function PokemonDetail() {
         history.push(path);
     }
 
+    useEffect(() => {
+        if(mypokemons && mypokemonid) {
+            setMypokemon(mypokemons.find(mp => {
+                return Number(mp.mypokemonid) === Number(mypokemonid)
+            }));
+        }
+    }, [mypokemonid, mypokemons, setMypokemon]);
+
     return (
         <>
         <div className='p-detail-page'>
-            <Modal title={modalTitle} body={modalBody} show={showModal} catched={catched} onClose={() => setShowModal(false)}  onSavedPokemon={SavePokemon} />
             
-            {!loadingState && pokemon ? 
+            { data ? 
                 <>
+                    <Modal title={modalTitle} body={modalBody} show={showModal} catched={catched} 
+                    onClose={() => setShowModal(false)}  onSavePokemon={onSavePokemon} 
+                    pokemon={data.pokemon} 
+                    onReleasePokemon={onReleasePokemon} released={released}/>
+
                     <IconContext.Provider value={{ className:"icon-back" }}>
                     <div onClick={() => history.goBack()} title="Go Back" className="btn-back">
                         <FaArrowCircleLeft />
@@ -111,31 +105,40 @@ function PokemonDetail() {
                     </IconContext.Provider>
                     <div className="p-detail-header-container">
                         <span className="header-text">
-                            {pokemon.name} &nbsp;
-                            <span className="header-id">#{pokemon.id}</span> 
+                            {data.pokemon.name} &nbsp;
+                            <span className="header-id">#{data.pokemon.id}</span> 
                         </span>                             
                     </div>
 
                     <div className="p-detail-container">
                         <div className="p-detail-img-container">
-                            <img className="p-detail-img" src={ pokemon.sprites.front_default } alt={pokemon.name}/>
+                            <img className="p-detail-img" src={ data.pokemon.sprites.front_default } alt={data.pokemon.name}/>
                             {
-                                nickname ? <span className="nickname-text">{nickname}</span> :
-                            <div className="catch-pokemon" onClick={() => CatchPokemon(pokemon)}>
-                                <Button text="catch"></Button>
-                            </div>
+                                mypokemon ?  <span className="nickname-text">{mypokemon.nickname}</span> : null
                             }
+                                <div className="button-container">
+                                    <div className="btn-catch-pokemon" onClick={() => onCatch()}>
+                                        <Button text="catch" size="size-normal"></Button>
+                                    </div>
+                                    {
+                                        mypokemon ? 
+                                        <div className="btn-release-pokemon" onClick={() => showReleaseConfirmation(mypokemonid)}>
+                                            <Button text="release" size="size-normal"></Button>
+                                        </div> 
+                                        : null
+                                    }
+                                </div>
                         </div>
                         <div className="p-detail-info-container">
-                                <div className={`p-detail-info-box type-${pokemon.types[0].type.name}`}>
+                                <div className={`p-detail-info-box type-${data.pokemon.types[0].type.name}`}>
                                     <div className="p-detail-info-box-left">
                                         <div className="box-height">
                                             <span className="box-text-title">Height</span>
-                                            <span className="box-text-value">{pokemon.height} ft</span>
+                                            <span className="box-text-value">{data.pokemon.height} ft</span>
                                         </div>
                                         <div className="box-weight">
                                             <span className="box-text-title">Weight</span>
-                                            <span className="box-text-value">{pokemon.weight} lbs</span>
+                                            <span className="box-text-value">{data.pokemon.weight} lbs</span>
                                         </div>
                                     </div>
                                     <div className="p-detail-info-box-right">
@@ -143,7 +146,7 @@ function PokemonDetail() {
                                             <span className="box-text-title">Abilities</span>
                                             <ul className="abilitiy">
                                             {
-                                                pokemon.abilities.map((ab) => {
+                                                data.pokemon.abilities.map((ab) => {
                                                     return (
                                                     <li key={ab.ability.name} className="box-text-value abilities" >
                                                         {ab.ability.name}
@@ -157,7 +160,7 @@ function PokemonDetail() {
                                 <div className="p-detail-info-type-box">
                                     <span className="box-text-title">Type</span>
                                     {
-                                        pokemon.types.map((type) => {
+                                        data.pokemon.types.map((type) => {
                                             return (
                                             <div key={type.type.name} className={`type type-${type.type.name}`}>  
                                                 <span className="type-value">{type.type.name}</span>
@@ -169,7 +172,7 @@ function PokemonDetail() {
                     </div>
                 </>
                 :
-                <span>Loading..</span>
+                <h1>Loading..</h1>
             }
         </div>
     </>

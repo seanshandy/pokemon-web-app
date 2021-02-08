@@ -1,27 +1,25 @@
-import React from 'react';
-import { Link } from "react-router-dom";
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 
-import "./PokemonCard.css";
+import { PokemonData } from '../../contexts/MyPokemonContext';
+import './PokemonCard.css';
 
 
 function PokemonCard({ pokemon , index}) {
-    const localPokemon = localStorage.getItem('my-pokemon');
     const isMypokemon = pokemon.mypokemonid ? true : false;
-    let total = 0;
+    const { mypokemons } = useContext(PokemonData);
+    let total = 0 
+    
+    mypokemons.forEach((mypokemon) => {
+        if(mypokemon.id === pokemon.id){
+            total++;
+        }
+    });
         
-    if(!isMypokemon && localPokemon) {
-        JSON.parse(localPokemon).forEach((p) => {
-            if(p.id === pokemon.id){
-                total++;
-            }
-        })
-    } else {
-        total = 0;
-    }
 
     return (
         <>
-            <Link to={'/pokemon/' + pokemon.name + (isMypokemon ? '/' + pokemon.nickname : '')} className="card">
+            <Link to={'/pokemon/' + pokemon.name + (isMypokemon ? '/' + pokemon.mypokemonid : '')} className="card">
                 <div className="pokemon-image-container">
                     <img src={pokemon.image} alt={pokemon.name} className="pokemon-image"/>
                 </div>
