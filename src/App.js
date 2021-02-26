@@ -62,7 +62,6 @@ function App() {
     <Router basename='/'>
       <Navbar />
         <PokemonData.Provider value={data}>
-          { lastOffset && mypokemons ?
             <div className="container page">
               <Switch>
                 <Route exact path='/'>
@@ -74,8 +73,7 @@ function App() {
                 <Route exact path='/pokemon/:name/:mypokemonid' component={PokemonDetail}/>
                 <Route exact path='*' component={ErrorPage} />
               </Switch>
-            </div> : <h1>Loading...</h1>
-          }
+            </div> 
         </PokemonData.Provider>
     </Router>
     </ApolloProvider>
