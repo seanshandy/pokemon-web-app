@@ -40,8 +40,8 @@ const client = new ApolloClient({
 });
 
 function App() {
-  const [mypokemons, setMypokemons] = useState([]);
-  const [lastOffset, setLastOffset] = useState(0);
+  const [mypokemons, setMypokemons] = useState(null);
+  const [lastOffset, setLastOffset] = useState(null);
 
   const data = useMemo(() => ({ mypokemons, lastOffset, setMypokemons, setLastOffset }), [mypokemons, lastOffset , setMypokemons, setLastOffset]);
 
@@ -62,6 +62,7 @@ function App() {
     <Router basename='/'>
       <Navbar />
         <PokemonData.Provider value={data}>
+        { lastOffset !== null && mypokemons !== null ?
             <div className="container page">
               <Switch>
                 <Route exact path='/'>
@@ -73,7 +74,8 @@ function App() {
                 <Route exact path='/pokemon/:name/:mypokemonid' component={PokemonDetail}/>
                 <Route exact path='*' component={ErrorPage} />
               </Switch>
-            </div> 
+              </div> : <h1>Loading...</h1>
+          }
         </PokemonData.Provider>
     </Router>
     </ApolloProvider>
